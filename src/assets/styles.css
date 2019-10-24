@@ -1,0 +1,12 @@
+.custom_search_text {
+    font-size: 11px;
+    margin-left: 25px;
+    color: grey;
+    position: relative;
+    width: auto;
+}
+a{
+    color: grey !important;
+    text-decoration: none;
+}
+.radius7{border-radius: 7px}

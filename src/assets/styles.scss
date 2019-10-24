@@ -1,7 +1,13 @@
-
 /*All colors Variables*/
-$bgColor: red;
-
-body{
-  background: $bgColor;
+#index {
+  .custom_search_text {
+    font-size: 11px;
+    text-align: right;
+    margin-right: 10px;
+    color: grey;
+  }
+  a{
+    color: grey;
+    text-decoration: none;
+  }
 }

@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import vueSweet from 'vue-sweetalert2';
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import "./assets/styles.scss";
+import "./assets/styles.css";
 
 Vue.config.productionTip = false;
 
