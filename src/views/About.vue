@@ -1,50 +1,15 @@
 <template>
     <v-layout class="about pa-2 radius7 grey lighten-5" wrap>
-        <v-flex class="pa-4 grey lighten-2 radius_left" md3 xs12>
-            <v-card class="radius7">
-                <v-card-text class="grey lighten-4 ">
-                    <v-form
-                            lazy-validation
-                            ref="form"
-                    >
-                        <v-text-field
-                                filled
-                                label="Name"
-                                required rounded
-                                v-model="serachItems['name']"
-                        ></v-text-field>
-                        <v-text-field
-                                filled
-                                label="Capital"
-                                required rounded
-                                v-model="serachItems['capital']"
-                        ></v-text-field>
-                        <v-text-field
-                                filled
-                                label="Language"
-                                required rounded
-                                v-model="serachItems['language']"
-                        ></v-text-field>
-                        <v-text-field
-                                filled
-                                label="Currency"
-                                required rounded
-                                v-model="serachItems['currency']"
-                        ></v-text-field>
-                    </v-form>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn class="primary" dark fab>
-                        <v-icon>search</v-icon>
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-flex>
-        <v-flex class="grey lighten-3" md3 xs12>
-            <div :key="country.name" class="pa-4" v-for="country in getCountry">
-                <v-card class="info_card">
-                    <v-card-text>
+        <v-flex class="grey lighten-3" md4 >
+            <v-expansion-panels>
+                <v-expansion-panel
+                        :key="i"
+                        v-for="(country,i) in getCountry"
+                >
+                    <v-expansion-panel-header @click="changeLatLong(country.latlng)">
+                        <span><img :src="country.flag" class="radius7 pt-4" height="25px" width="25px"/> {{country.name}}</span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
                         <h2>General Information </h2><br>
                         <img :src="country.flag" class="radius7" height="auto" width="100%"/>
                         <p><b>Name :</b> {{country.name}}</p>
@@ -83,30 +48,43 @@
                             </li>
                         </ul>
                         </p>
-                        <v-btn class="primary" dark fab> <v-icon>map</v-icon></v-btn>
-                    </v-card-text>
-                </v-card>
-            </div>
-        </v-flex>
-        <v-flex class="pa-4 grey lighten-4 radius_right" md6 xs12>
 
+                        <v-btn @click="changeLatLong(country.latlng)" class="primary" dark fab>
+                            <v-icon>map</v-icon>
+                        </v-btn>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-flex>
+        <v-flex class="pa-4 grey lighten-4 radius_right" md8 xs12 v-if="showMaps">
+            <maps :key="reloadMap"
+                  :lat="lat"
+                  :lng="long"
+                  :radius="1"
+                  :showRadius="false"
+                  style="height: 100%; min-height: 300px"
+            ></maps>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
     import {mapGetters} from 'vuex';
+    import maps from '@/views/maps.vue'
 
     export default {
-        name: "index",
+        name: "country",
         data() {
             return {
                 customSearch: false,
-                serachItems: []
+                showMaps: false,
+                lat: 0,
+                long: 0,
+                reloadMap: 1
             }
         },
-        created() {
-            this.init();
+        components: {
+            maps
         },
         computed: {
             ...mapGetters([
@@ -115,20 +93,16 @@
             ])
         },
         methods: {
-            init() {
-                let parameters = {
-                    type: 'name',
-                    value: 'China'
-                };
-                this.$store.dispatch('fetchCountry', parameters)
-            },
             reset() {
                 this.customSearch = false;
                 this.searchItems = []
             },
-            remove() {
-                this.serachItems['country'] = ''
-            },
+            changeLatLong(latlng) {
+                this.showMaps = true;
+                this.lat = latlng[0];
+                this.long = latlng[1];
+                this.reloadMap = Math.random()
+            }
         }
     }
 </script>
