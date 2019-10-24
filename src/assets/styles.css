@@ -5,8 +5,29 @@
     position: relative;
     width: auto;
 }
-a{
+
+a {
     color: grey !important;
     text-decoration: none;
 }
-.radius7{border-radius: 7px}
+
+.radius7 {
+    border-radius: 7px
+}
+
+.radius_left {
+    border-radius: 7px 0 0 7px;
+}
+
+.radius_right {
+    border-radius: 0px 7px 7px 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .radius_left {
+        border-radius: 7px 7px 0 0;
+    }
+    .radius_right {
+        border-radius: 0 0 7px 7px ;
+    }
+}
