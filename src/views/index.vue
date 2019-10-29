@@ -27,26 +27,30 @@
                     </template>
                     <template v-slot:selection="data">
                         <v-chip :selected="data.selected" @input="remove()" close>
-                            <v-icon>room</v-icon>
                             <img
                                     :src="data.item.flag"
                                     class="mx-1 radius7"
-                                    height="25px"
-                                    width="25px"
+                                    height="18px"
+                                    width="18px"
                             />
                             {{ data.item.name }}
                         </v-chip>
                     </template>
                     <template v-slot:item="data">
                         <template>
-                            <v-icon>room</v-icon>
+                            <img
+                                    :src="data.item.flag"
+                                    class="mx-1 radius7"
+                                    height="18px"
+                                    width="18px"
+                            />
                             <v-list-tile-content v-text="data.item.name"/>
                         </template>
                     </template>
                 </v-autocomplete>
             </v-flex>
             <v-flex class="xs4 sm2 mt-2  text-center">
-                <v-btn @click="searchCountry()" class="primary" dark fab>
+                <v-btn @click="search('name', serachItems['country'])" class="primary" dark fab>
                     <v-icon>search</v-icon>
                 </v-btn>
             </v-flex>
@@ -56,36 +60,163 @@
                 <v-card class="radius7">
                     <v-card-text class="px-3 pt-3 pb-0">
                         <v-form lazy-validation ref="form">
-                            <v-text-field
-                                    filled
-                                    label="Capital"
-                                    required
-                                    rounded
-                                    v-model="serachItems['capital']"
-                            ></v-text-field>
-                            <v-text-field
-                                    filled
-                                    label="Language"
-                                    required
-                                    rounded
-                                    v-model="serachItems['language']"
-                            ></v-text-field>
-                            <v-text-field
-                                    filled
-                                    label="Currency"
-                                    required
-                                    rounded
-                                    v-model="serachItems['currency']"
-                            ></v-text-field>
+                            <v-layout wrap>
+                                <v-flex xs2>
+                                    <v-switch @click="elementsChanges('capitalSwitch')"
+                                              v-model="showElements['capitalSwitch']"></v-switch>
+                                </v-flex>
+                                <v-flex xs10>
+                                    <v-autocomplete
+                                            :disabled="!showElements['capitalSwitch']"
+                                            :items="getCountries"
+                                            @change="createSearchArray('capital', serachItems['capital'])"
+                                            append-icon="search"
+                                            chips
+                                            color="white"
+                                            filled
+                                            item-text="capital"
+                                            item-value="capital"
+                                            label="Search by country capital name"
+                                            outline
+                                            persistent-hint
+                                            rounded
+                                            v-model="serachItems['capital']"
+
+                                    >
+                                        <template class="custom_search_text" v-slot:capital>
+                                            <v-icon class="custom_search_text" style="vertical-align: middle">
+                                                search
+                                            </v-icon>
+                                            Search by country capital
+                                        </template>
+                                        <template v-slot:selection="data">
+                                            <v-chip :selected="data.selected" @input="remove()" close>
+                                                <img
+                                                        :src="data.item.flag"
+                                                        class="mx-1 radius7"
+                                                        height="18px"
+                                                        width="18px"
+                                                />
+                                                {{ data.item.capital }} ; {{ data.item.name }}
+                                            </v-chip>
+                                        </template>
+                                        <template v-slot:item="data">
+                                            <template>
+                                                <img
+                                                        :src="data.item.flag"
+                                                        class="mx-1 radius7"
+                                                        height="18px"
+                                                        width="18px"
+                                                />
+                                                <v-list-tile-content v-text="data.item.capital"/>
+                                            </template>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout wrap>
+                                <v-flex xs2>
+                                    <v-switch @click="elementsChanges('langSwitch')"
+                                              v-model="showElements['langSwitch']"></v-switch>
+                                </v-flex>
+                                <v-flex xs10>
+                                    <v-autocomplete
+                                            :disabled="!showElements['langSwitch']"
+                                            :items="getLang"
+                                            @change="createSearchArray('lang', serachItems['language'])"
+                                            append-icon="search"
+                                            chips
+                                            color="white"
+                                            filled
+                                            item-text="name"
+                                            item-value="iso_1"
+                                            label="Search by Langague"
+                                            outline
+                                            persistent-hint
+                                            rounded
+                                            v-model="serachItems['language']"
+
+                                    >
+                                        <template class="custom_search_text" v-slot:name>
+                                            <v-icon class="custom_search_text" style="vertical-align: middle">
+                                                search
+                                            </v-icon>
+                                            Search by language
+                                        </template>
+                                        <template v-slot:selection="data">
+                                            <v-chip :selected="data.selected" @input="remove()" close>
+                                                {{ data.item.name }}
+                                            </v-chip>
+                                        </template>
+                                        <template v-slot:item="data">
+                                            <template>
+                                                <v-list-tile-content v-text="data.item.name"/>
+                                                <v-spacer></v-spacer>
+                                                <v-badge class="grey darken-1  pa-2 radius7"> Native : {{
+                                                    data.item.nativeName }}
+                                                </v-badge>
+                                            </template>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-flex>
+                            </v-layout>
+                            <v-layout wrap>
+                                <v-flex xs2>
+                                    <v-switch @click="elementsChanges('currencySwitch')"
+                                              v-model="showElements['currencySwitch']"></v-switch>
+                                </v-flex>
+                                <v-flex xs10>
+                                    <v-autocomplete
+                                            :disabled="!showElements['currencySwitch']"
+                                            :items="getCurrencies"
+                                            @change="createSearchArray('currency', serachItems['currency'])"
+                                            append-icon="search"
+                                            chips
+                                            color="white"
+                                            filled
+                                            item-text="name"
+                                            item-value="code"
+                                            label="Search by currencies"
+                                            outline
+                                            persistent-hint
+                                            rounded
+                                            v-model="serachItems['currency']"
+
+                                    >
+                                        <template class="custom_search_text" v-slot:name>
+                                            <v-icon class="custom_search_text" style="vertical-align: middle">
+                                                search
+                                            </v-icon>
+                                            Search by courrencies
+                                        </template>
+                                        <template v-slot:selection="data">
+                                            <v-chip :selected="data.selected" @input="remove()" close>
+                                                {{ data.item.name }}
+                                                <v-badge class="ml-2 grey darken-1 pa-1 radius7">{{ data.item.symbol
+                                                    }}
+                                                </v-badge>
+                                            </v-chip>
+                                        </template>
+                                        <template v-slot:item="data">
+                                            <template>
+                                                <v-list-tile-content v-text="data.item.name"/>
+                                                <v-spacer></v-spacer>
+                                                <v-badge class="grey darken-1 pa-2 radius7">{{ data.item.symbol }}
+                                                </v-badge>
+                                            </template>
+                                        </template>
+                                    </v-autocomplete>
+                                </v-flex>
+                            </v-layout>
                         </v-form>
                     </v-card-text>
-                    <v-card-actions>
+                    <v-card-actions class="grey darken-2">
                         <v-spacer/>
-                        <v-btn class="primary" dark rounded>
+                        <v-btn @click="searchCustom()" class="primary radius7" dark>
                             <v-icon>search</v-icon>
                             search
                         </v-btn>
-                        <v-btn @click="reset()" class="error" dark rounded>
+                        <v-btn @click="reset()" class="error radius7" dark>
                             <v-icon>close</v-icon>
                             close
                         </v-btn>
@@ -112,7 +243,9 @@
             return {
                 customSearch: false,
                 serachItems: [],
-                dialog: false
+                dialog: false,
+                showElements: [],
+                serachArray: {},
             };
         },
         components: {
@@ -122,17 +255,17 @@
             this.init();
         },
         computed: {
-            ...mapGetters(["getCountries", "getCountry"])
+            ...mapGetters(["getCountries", "getCountry", "getCurrencies", "getLang"])
         },
         methods: {
             init() {
-                this.$store.dispatch("fetchCountries")
+                this.$store.dispatch("fetchCountries");
             },
-            searchCountry() {
-                this.dialog = true
+            search(type = 'name', value) {
+                this.dialog = true;
                 let parameters = {
-                    type: 'name',
-                    value: this.serachItems['country']
+                    type: type,
+                    value: value
                 };
                 this.$store.dispatch('fetchCountry', parameters)
             },
@@ -142,7 +275,30 @@
             },
             remove() {
                 this.serachItems["country"] = "";
-            }
+            },
+            elementsChanges(element) {
+                for (let key in this.showElements) {
+                    if (key !== element) {
+                        this.showElements[key] = false
+                    }
+                }
+            },
+            createSearchArray(name, value) {
+                this.serachArray = {
+                    type: name,
+                    value: value
+                };
+                 return true;
+            },
+            searchCustom() {
+                this.dialog = true;
+                let parameters = {
+                    type: this.serachArray.type,
+                    value: this.serachArray.value
+                };
+                this.$store.dispatch('fetchCountry', parameters)
+            },
+
         }
     };
 </script>

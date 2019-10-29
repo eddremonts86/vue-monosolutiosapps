@@ -48,11 +48,7 @@
                             </li>
                         </ul>
                         </p>
-
-                        <v-btn @click="changeLatLong(country.latlng)" class="primary" dark fab>
-                            <v-icon>map</v-icon>
-                        </v-btn>
-                    </v-expansion-panel-content>
+                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-flex>
