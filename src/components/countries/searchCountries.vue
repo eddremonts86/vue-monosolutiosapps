@@ -1,9 +1,10 @@
 <template>
     <div class="mx-auto search_box radius7 pa-5">
         <v-layout v-if="!customSearch" wrap>
-            <v-flex class="xs12"><a @click="customSearch = !customSearch" class="custom_search_text"
-            >Custom Search</a
-            ></v-flex>
+            <v-flex class="xs12">
+                <a @click="customSearch = !customSearch" class="custom_search_text">Custom Search</a>
+                 <a @click="search('history')" class="custom_search_text">History</a>
+            </v-flex>
             <v-flex class="xs8 sm10">
                 <v-autocomplete
                         :items="getCountries"
@@ -224,7 +225,6 @@
                 </v-card>
             </v-flex>
         </v-layout>
-
         <v-dialog
                 v-model="dialog"
                 width="70%"
@@ -234,7 +234,7 @@
     </div>
 </template>
 <script>
-    import country from "@/views/About.vue";
+    import country from "@/components/countries/country.vue";
     import {mapGetters} from "vuex";
 
     export default {
@@ -263,6 +263,10 @@
             },
             search(type = 'name', value) {
                 this.dialog = true;
+                if(type === 'history'){
+                    this.$store.dispatch('fetchCountry', null)
+                    return true
+                }
                 let parameters = {
                     type: type,
                     value: value
@@ -280,6 +284,12 @@
                 for (let key in this.showElements) {
                     if (key !== element) {
                         this.showElements[key] = false
+                    }
+                }
+
+                for (let key in this.serachItems) {
+                    if (key !== element) {
+                        this.serachItems[key] = []
                     }
                 }
             },

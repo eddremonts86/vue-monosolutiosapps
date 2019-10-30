@@ -1,7 +1,7 @@
 <template>
     <v-layout class="about pa-2 radius7 grey lighten-5" wrap>
         <v-flex class="grey lighten-3" md4 >
-            <v-expansion-panels>
+            <v-expansion-panels v-if="getCountry.length > 0">
                 <v-expansion-panel
                         :key="i"
                         v-for="(country,i) in getCountry"
@@ -66,7 +66,7 @@
 
 <script>
     import {mapGetters} from 'vuex';
-    import maps from '@/views/maps.vue'
+    import maps from '@/components/maps/maps.vue'
 
     export default {
         name: "country",

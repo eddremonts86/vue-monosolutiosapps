@@ -33,9 +33,27 @@ export default new Vuex.Store({
     },
     actions: {
         async fetchCountry({commit, state}, parameters) {
-            const urlBase = `${state.baseUrl}/${parameters.type}/${parameters.value}`;
-            const data = await Axios.get(urlBase, state.axiosConf);
-            commit("setCountry", data.data);
+            let data = [];
+            if (parameters === null) {
+                let history = JSON.parse(localStorage.getItem('history'));
+                commit("setCountry", history);
+            } else {
+                const urlBase = `${state.baseUrl}/${parameters.type}/${parameters.value}`;
+                data = await Axios.get(urlBase, state.axiosConf);
+                if (localStorage.getItem('history')) {
+                    let history = JSON.parse(localStorage.getItem('history'));
+                    data.data.forEach(function (element) {
+                        let result = history.find(country => country.name === element.name);
+                        if (!result) {
+                            history.push(element);
+                        }
+                    });
+                    localStorage.setItem('history', JSON.stringify(history));
+                } else {
+                    localStorage.setItem('history', JSON.stringify(data.data));
+                }
+                commit("setCountry", data.data);
+            }
             return data.data;
         },
         fetchCountries({commit, state}) {
@@ -46,14 +64,15 @@ export default new Vuex.Store({
             Axios.get(urlBase, state.axiosConf).then((response) => {
                 countries = response.data;
                 commit("setCountries", countries);
-                countries.forEach((country) => {(
+                countries.forEach((country) => {
+                    (
                         country.languages).forEach((lang) => {
                         const resultado = languages.find(language => language.name === lang.name);
                         if (!resultado) {
                             languages.push({
                                 'name': lang.name,
                                 'nativeName': lang.nativeName,
-                                'iso_1':  lang.iso639_1,
+                                'iso_1': lang.iso639_1,
                                 'iso_2': lang.iso639_2,
                             })
                         }
