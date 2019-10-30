@@ -227,7 +227,7 @@
         </v-layout>
         <v-dialog
                 v-model="dialog"
-                width="70%"
+                width="60%"
         >
             <country/>
         </v-dialog>

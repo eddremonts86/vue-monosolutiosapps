@@ -1,6 +1,6 @@
 <template>
     <v-layout class="about pa-2 radius7 grey lighten-5" wrap>
-        <v-flex class="grey lighten-3" md4 >
+        <v-flex class="md4 xs12">
             <v-expansion-panels v-if="getCountry.length > 0">
                 <v-expansion-panel
                         :key="i"
@@ -19,47 +19,53 @@
                         <p><b>Population :</b> {{country.population}}</p>
                         <p><b>Numeric Code :</b> {{country.numericCode}}</p>
                         <h2>Other Information </h2><br>
-                        <p><b>Borders :</b>
+                        <p><b>Borders :</b></p>
                         <ul v-if="(country.borders).length > 0">
                             <li :key="i" class="ml-4" v-for="(borders,i) in country.borders">
                                 {{borders}}
                             </li>
                         </ul>
                         <ul v-else> No Borders</ul>
-                        </p>
-                        <p><b>Currencies :</b>
+
+                        <p><b>Currencies :</b></p>
                         <ul>
                             <li :key="i" class="ml-4" v-for="(currencies,i) in country.currencies">
                                 {{currencies.name}} ({{currencies.symbol}}/{{currencies.code}})
                             </li>
                         </ul>
-                        </p>
-                        <p><b>Lenguages :</b>
+
+                        <p><b>Lenguages :</b></p>
                         <ul>
                             <li :key="i" class="ml-4" v-for="(languages,i) in country.languages">
                                 {{languages.name}}
                             </li>
                         </ul>
-                        </p>
-                        <p><b>Phone Codes :</b>
+
+                        <p><b>Phone Codes :</b></p>
                         <ul>
                             <li :key="i" class="ml-4" v-for="(callingCodes,i) in country.callingCodes">
                                 {{callingCodes}}
                             </li>
                         </ul>
-                        </p>
-                     </v-expansion-panel-content>
+
+                    </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
         </v-flex>
-        <v-flex class="pa-4 grey lighten-4 radius_right" md8 xs12 v-if="showMaps">
-            <maps :key="reloadMap"
-                  :lat="lat"
-                  :lng="long"
-                  :radius="1"
-                  :showRadius="false"
-                  style="height: 100%; min-height: 300px"
-            ></maps>
+        <v-flex class="pa-1 radius7 md-8 xs-12">
+            <div v-if="activeMaps">
+                <maps :key="reloadMap"
+                      :lat="lat"
+                      :lng="long"
+                      :radius="1"
+                      :showRadius="false"
+                      class="maps"
+                      v-if="showMaps"></maps>
+            </div>
+            <div v-else class="pa-3">
+                <h3> No map enabled, please select a country</h3>
+            </div>
+
         </v-flex>
     </v-layout>
 </template>
@@ -74,6 +80,7 @@
             return {
                 customSearch: false,
                 showMaps: false,
+                activeMaps: false,
                 lat: 0,
                 long: 0,
                 reloadMap: 1
@@ -91,10 +98,13 @@
         methods: {
             reset() {
                 this.customSearch = false;
+                this.showMaps = false;
+                this.activeMaps = false;
                 this.searchItems = []
             },
             changeLatLong(latlng) {
                 this.showMaps = true;
+                this.activeMaps = true;
                 this.lat = latlng[0];
                 this.long = latlng[1];
                 this.reloadMap = Math.random()
