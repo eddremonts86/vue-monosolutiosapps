@@ -80,6 +80,7 @@
 </template>
 
 <script>
+
     import {mapGetters} from 'vuex';
     import maps from '@/components/maps/maps.vue'
 

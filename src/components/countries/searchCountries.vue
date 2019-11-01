@@ -235,6 +235,7 @@
     </div>
 </template>
 <script>
+
     import country from "@/components/countries/country.vue";
     import {mapGetters} from "vuex";
 
