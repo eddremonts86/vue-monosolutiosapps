@@ -3,7 +3,7 @@
         <v-layout v-if="!customSearch" wrap>
             <v-flex class="xs12">
                 <a @click="customSearch = !customSearch" class="custom_search_text">Custom Search</a>
-                 <a @click="search('history')" class="custom_search_text">History</a>
+                <a @click="search('history')" class="custom_search_text">History</a>
             </v-flex>
             <v-flex class="xs8 sm10">
                 <v-autocomplete
@@ -226,8 +226,9 @@
             </v-flex>
         </v-layout>
         <v-dialog
-                v-model="dialog"
+                v-model="getWindowsStatus"
                 width="60%"
+                persistent
         >
             <country/>
         </v-dialog>
@@ -243,7 +244,6 @@
             return {
                 customSearch: false,
                 serachItems: [],
-                dialog: false,
                 showElements: [],
                 serachArray: {},
             };
@@ -255,16 +255,16 @@
             this.init();
         },
         computed: {
-            ...mapGetters(["getCountries", "getCountry", "getCurrencies", "getLang"])
+            ...mapGetters(["getCountries", "getCountry", "getCurrencies", "getLang","getWindowsStatus"])
         },
         methods: {
             init() {
                 this.$store.dispatch("fetchCountries");
             },
             search(type = 'name', value) {
-                this.dialog = true;
-                if(type === 'history'){
-                    this.$store.dispatch('fetchCountry', null)
+                this.$store.dispatch('fetchWindowsStatus', true);
+                if (type === 'history') {
+                    this.$store.dispatch('fetchCountry', null);
                     return true
                 }
                 let parameters = {
@@ -272,6 +272,7 @@
                     value: value
                 };
                 this.$store.dispatch('fetchCountry', parameters)
+
             },
             reset() {
                 this.customSearch = false;
@@ -286,7 +287,6 @@
                         this.showElements[key] = false
                     }
                 }
-
                 for (let key in this.serachItems) {
                     if (key !== element) {
                         this.serachItems[key] = []
@@ -298,7 +298,7 @@
                     type: name,
                     value: value
                 };
-                 return true;
+                return true;
             },
             searchCustom() {
                 this.dialog = true;

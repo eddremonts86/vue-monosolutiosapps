@@ -15,7 +15,8 @@ export default new Vuex.Store({
         country: [],
         countries: [],
         lang: [],
-        currency: []
+        currency: [],
+        windowsStatus:false
     },
     mutations: {
         setCountry(state, data) {
@@ -29,7 +30,10 @@ export default new Vuex.Store({
         },
         setLang(state, data) {
             state.lang = data;
-        }
+        },
+        setWindowsStatus(state, data) {
+            state.windowsStatus = data;
+        },
     },
     actions: {
         async fetchCountry({commit, state}, parameters) {
@@ -92,7 +96,10 @@ export default new Vuex.Store({
                 commit("setCurrency", currencies);
                 commit("setLang", languages);
             })
-        }
+        },
+        fetchWindowsStatus({commit},status) {
+                commit("setWindowsStatus", status);
+        },
     },
     getters: {
         getCountry(state) {
@@ -106,6 +113,9 @@ export default new Vuex.Store({
         },
         getLang(state) {
             return state.lang;
+        },
+        getWindowsStatus(state) {
+            return state.windowsStatus;
         }
     },
     modules: {}
