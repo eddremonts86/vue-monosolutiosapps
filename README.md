@@ -1,23 +1,7 @@
-# VueJS & Vuetify
-This is a complete app to start our vuejs projects as soon we clone it.
-  - Elements 
-    - Vue js 
-    - Vuetify
-    - Route
-    - Axios
-    - Store 
-    - SASS / SCSS
-    - Sweet Alert 2
-    - Material Design Icons 
-    - Eslint
-    - Prettier
+![Screenshot](default.png)
+
+# Countries information
  
-  - Test tools
-  
-    - Jest
-    - Cypress
-    
-        
 ## Project setup
 ```
 npm install
