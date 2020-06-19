@@ -1,64 +1,85 @@
+/*All colors Variables*/
+#index .custom_search_text {
+  font-size: 11px;
+  text-align: right;
+  margin-right: 10px;
+  color: grey;
+}
+
+#index a {
+  color: grey;
+  text-decoration: none;
+}
+
 .body {
-    background-color: #464646;
-    background-image: url("https://www.ssp.ag/wp-content/uploads/D6MBAGOU.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-color: #464646;
+  background-image: url("https://www.ssp.ag/wp-content/uploads/D6MBAGOU.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hide {
+  display: none;
 }
 
 .custom_search_text {
-    font-size: 11px;
-    margin-left: 25px;
-    color: grey;
-    position: relative;
-    width: auto;
+  font-size: 11px;
+  margin-left: 25px;
+  color: grey;
+  position: relative;
+  width: auto;
 }
 
 a {
-    color: grey !important;
-    text-decoration: none;
+  color: grey !important;
+  text-decoration: none;
 }
 
 .maps {
-    height: 100%;
-    min-height: 300px
+  height: 100%;
+  min-height: 300px;
 }
 
 .radius7 {
-    border-radius: 7px
+  border-radius: 7px;
+}
+
+.radius4 {
+  border-radius: 2px;
 }
 
 .radius_left {
-    border-radius: 7px 0 0 7px;
+  border-radius: 7px 0 0 7px;
 }
 
 .radius_right {
-    border-radius: 0px 7px 7px 0;
+  border-radius: 0px 7px 7px 0;
 }
 
 .info_card {
-    position: relative;
-    width: 100%;
-    padding: 2px;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 5px rgba(69, 72, 73, 0.75);
-    border-radius: 3px;
+  position: relative;
+  width: 100%;
+  padding: 2px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 2px 5px rgba(69, 72, 73, 0.75);
+          box-shadow: 0px 2px 5px rgba(69, 72, 73, 0.75);
+  border-radius: 3px;
 }
 
 .search_box {
-    width: 50%;
-    background: rgba(216, 216, 216, 0.95)
+  width: 50%;
+  background: rgba(216, 216, 216, 0.95);
 }
 
 @media only screen and (max-width: 600px) {
-    .radius_left {
-        border-radius: 7px 7px 0 0;
-    }
-
-    .radius_right {
-        border-radius: 0 0 7px 7px;
-    }
-
-    .search_box {
-        width: 90%;
-    }
+  .radius_left {
+    border-radius: 7px 7px 0 0;
+  }
+  .radius_right {
+    border-radius: 0 0 7px 7px;
+  }
+  .search_box {
+    width: 90%;
+  }
 }
+/*# sourceMappingURL=styles.css.map */
